@@ -5,11 +5,13 @@
 # ---------------------------------
 
 name: CI
+env:
+  APP_ENV : "my application env variable"
+  APP_NAME: "test-app:${{ github.sha }}"
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   testing: 
@@ -19,8 +21,15 @@ jobs:
       - name: Print hello world
         run: echo "hello world - testing!"
 
+      - name: Print any env variables
+        run: |
+          echo "APP_NAME: ${{ env.APP_NAME }}" 
+          echo "APP_ENV: ${{ env.APP_ENV }}" 
+          
+
   deploy: 
     runs-on: ubuntu-latest
+    needs: [testing]
     
     steps:
       - name: Print hello world
