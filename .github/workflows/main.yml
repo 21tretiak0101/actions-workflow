@@ -7,7 +7,7 @@
 name: CI/CD_pipeline_to_AWS
 env:
   EB_APPLICATION_NAME       : "actions-test-app"
-  EB_PACKAGE_S3_BUCKET_NAME : "github-actions-testing-packages"
+  EB_PACKAGE_S3_BUCKET_NAME : "github-actions-testing-packages-bucket"
   EB_ENVIRONMENT_NAME       : "ActionsTestApp-env"
   DEPLOY_PACKAGE_NAME       : "actions-test-app_${{ github.sha }}.zip"
   AWS_REGION_NAME           : "us-east-2"
