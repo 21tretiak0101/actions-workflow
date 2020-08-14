@@ -18,9 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Run app tests
-        run: mvn test
-
       - name: Print hello world
         run: echo "hello world - testing!"
 
@@ -34,6 +31,9 @@ jobs:
         
       - name: Print all files
         run: ls -la
+
+      - name: Run app tests
+          run: mvn test
 
   deploy: 
     runs-on: ubuntu-latest
