@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Run app tests
+        run: mvn test
+
       - name: Print hello world
         run: echo "hello world - testing!"
 
