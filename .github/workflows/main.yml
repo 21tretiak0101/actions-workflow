@@ -4,56 +4,46 @@
 #
 # ---------------------------------
 
-name: CI
+name: CI/CD_pipeline_to_AWS
 env:
-  APP_ENV : "my application env variable"
-  APP_NAME: "test-app:${{ github.sha }}"
+  EB_APPLICATION_NAME       : "actions-test-app"
+  EB_PACKAGE_S3_BUCKET_NAME : "github-actions-testing-packages"
+  EB_ENVIRONMENT_NAME       : "ActionsTestApp-env"
+  DEPLOY_PACKAGE_NAME       : "actions-test-app_${{ github.sha }}.zip"
+  AWS_REGION_NAME           : "us-east-2"
 
 on:
   push:
     branches: [master]
 
 jobs:
-  testing: 
+  ci-pipeline: 
     runs-on: ubuntu-latest
-    
     steps:
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.1
         with:
           java-version: '14'
       
-      - name: Print hello world
-        run: echo "hello world - testing!"
-
-      - name: Print any env variables
-        run: |
-          echo "APP_NAME: ${{ env.APP_NAME }}" 
-          echo "APP_ENV: ${{ env.APP_ENV }}" 
-      
-      - name: Clone this repository
+      - name: Git clone this repository
         uses: actions/checkout@v1
-        
-      - name: Print all files
-        run: ls -la
+         
+      - name: Run application tests
+        run:  mvn test
 
-      - name: Run app tests
-        run: mvn test
+      - name: Create ZIP deployment package
+        run:  zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
 
-  deploy: 
-    runs-on: ubuntu-latest
-    needs: [testing]
-    
-    steps:
-      - name: Print hello world
-        run: echo "hello world - deploy!"
-        
-      - name: Check aws packages
-        run:  aws --version
-        
-      - name: Check mvn packages
-        run:  mvn --version
-        
-      - name: Check zip packages
-        run:  zip --version
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials
+        with:
+          aws-access-key-id        : ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key-id : ${{ secrets.AWS_SECRET_KEY }}
+          aws-region               : ${{ env.AWS_REGION_NAME }}
 
+      - name: Copy ZIP deployment package to AWS S3 Bucket
+        run: aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/
+        
+      - name: Print CI-pipeline finish message
+        run: echo "CI-pipeline finished successfully !"  
+        
