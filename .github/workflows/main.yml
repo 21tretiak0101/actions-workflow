@@ -18,6 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.1
+        with:
+          java-version: '14'
+      
       - name: Print hello world
         run: echo "hello world - testing!"
 
