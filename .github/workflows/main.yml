@@ -33,7 +33,7 @@ jobs:
         run: ls -la
 
       - name: Run app tests
-          run: mvn test
+        run: mvn test
 
   deploy: 
     runs-on: ubuntu-latest
