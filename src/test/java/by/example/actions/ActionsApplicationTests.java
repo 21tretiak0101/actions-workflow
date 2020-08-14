@@ -41,7 +41,7 @@ class ActionsApplicationTests {
 	@Test
 	public void getOne() throws Exception {
 		Task first = new Task(1, "first");
-		mockMvc.perform(get("/api/test/1"))
+		mockMvc.perform(get("/api/tasks/1"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(content()
@@ -55,7 +55,7 @@ class ActionsApplicationTests {
 				new Task(1, "first"),
 				new Task(2, "second")
 		);
-		mockMvc.perform(get("/api/test"))
+		mockMvc.perform(get("/api/tasks"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(content()

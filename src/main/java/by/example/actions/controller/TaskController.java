@@ -1,16 +1,14 @@
 package by.example.actions.controller;
 
 import by.example.actions.entity.Task;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/test")
+@RequestMapping("api/tasks")
 public class TaskController {
     public static final List<Task> TASKS = Arrays.asList(
             new Task(1, "first"),
@@ -18,11 +16,13 @@ public class TaskController {
     );
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Task> getAll() {
         return TASKS;
     }
 
     @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Task getOne(@PathVariable Integer id) {
         return TASKS.stream()
                 .filter(task -> task.getId().equals(id))
