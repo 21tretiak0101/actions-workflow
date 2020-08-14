@@ -1,0 +1,28 @@
+# ---------------------------------
+# Test comments
+# Copyright (c) Ilia Tretiak 2020.
+#
+# ---------------------------------
+
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  testing: 
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Print hello world
+        run: echo "hello world - testing!"
+
+  deploy: 
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Print hello world
+        run: echo "hello world - deploy!"
+
