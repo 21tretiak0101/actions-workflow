@@ -30,14 +30,7 @@ jobs:
         uses: actions/checkout@v1
         
       - name: Print all files
-        run: ll 
-        
-      - name: Check some packages
-        run: |
-          aws --version
-          mvn --version
-          zip
-          
+        run: ls -la
 
   deploy: 
     runs-on: ubuntu-latest
@@ -46,4 +39,13 @@ jobs:
     steps:
       - name: Print hello world
         run: echo "hello world - deploy!"
+        
+      - name: Check aws packages
+        run:  aws --version
+        
+      - name: Check mvn packages
+        run:  mvn --version
+        
+      - name: Check zip packages
+        run:  zip --version
 
