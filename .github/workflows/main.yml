@@ -31,9 +31,6 @@ jobs:
       - name: Run tests and package application
         run:  mvn package
 
-      - name: Create JAR deployment package
-        run:  mvn package ${{ env.DEPLOY_PACKAGE_NAME }}
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
