@@ -25,6 +25,18 @@ jobs:
         run: |
           echo "APP_NAME: ${{ env.APP_NAME }}" 
           echo "APP_ENV: ${{ env.APP_ENV }}" 
+      
+      - name: Clone this repository
+        uses: actions/checkout@v1
+        
+      - name: Print all files
+        run: ll 
+        
+      - name: Check some packages
+        run: |
+          aws --version
+          mvn --version
+          zip
           
 
   deploy: 
