@@ -9,7 +9,8 @@ env:
   EB_APPLICATION_NAME       : "actions-test-app"
   EB_PACKAGE_S3_BUCKET_NAME : "github-actions-testing-packages-bucket"
   EB_ENVIRONMENT_NAME       : "ActionsTestApp-env"
-  DEPLOY_PACKAGE_NAME       : "actions-test-app.jar"
+  BUILD_PACKAGE_NAME        : "actions-test-app.jar"
+  DEPLOY_PACKAGE_NAME       : "actions-test-app-${{ github.sha }}.jar" 
   AWS_REGION_NAME           : "us-east-2"
 
 on:
@@ -28,8 +29,11 @@ jobs:
       - name: Git clone this repository
         uses: actions/checkout@v1
          
-      - name: Run tests and package application
+      - name: Run tests and build application
         run:  mvn package
+        
+      - name: Rename build package to deploy package
+        run: mv target/${{ env.BUILD_PACKAGE_NAME }} target/${{ env.DEPLOY_PACKAGE_NAME }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
